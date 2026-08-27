@@ -12,39 +12,183 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 	</head>
 	<body>
 		<Header />
-		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This
-				template serves as a lightweight, minimally-styled starting point for anyone looking to build
-				a personal website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to <a href="https://docs.astro.build/"
-					>read the docs
-				</a> or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out <a
-					href="https://github.com/Charca/astro-blog-template"
-					>astro-blog-template
-				</a> by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
+		<main class="home">
+			<section class="hero">
+				<p class="eyebrow">MANIYARS WEB · ADELAIDE, AUSTRALIA</p>
+				<h1>Building practical solutions with cloud, automation and AI.</h1>
+				<p class="intro">
+					A personal technology playground for experiments, notes and projects across Azure,
+					Cloudflare, n8n, software architecture and AI agents.
+				</p>
+				<div class="actions">
+					<a class="primary" href="/blog/">Explore the blog</a>
+					<a class="secondary" href="/about/">About Maniyars Web</a>
+				</div>
+			</section>
+
+			<section class="grid" aria-label="Areas of focus">
+				<article>
+					<span>01</span>
+					<h2>Cloud Architecture</h2>
+					<p>Azure, APIs, integration patterns, serverless platforms and reliable cloud design.</p>
+				</article>
+				<article>
+					<span>02</span>
+					<h2>Automation</h2>
+					<p>n8n, workflow orchestration and practical automations that reduce repetitive work.</p>
+				</article>
+				<article>
+					<span>03</span>
+					<h2>AI Experiments</h2>
+					<p>AI agents, developer tooling and experiments that connect models with real systems.</p>
+				</article>
+			</section>
+
+			<section class="note">
+				<div>
+					<p class="eyebrow">TEST DEPLOYMENT</p>
+					<h2>This page is now customized.</h2>
+				</div>
+				<p>
+					This is an intentionally lightweight first pass to verify the GitHub → Cloudflare Workers
+					deployment flow before we build out the full site.
+				</p>
+			</section>
 		</main>
 		<Footer />
 	</body>
 </html>
+
+<style>
+	.home {
+		width: min(1100px, calc(100% - 2rem));
+		margin: 0 auto;
+		padding: 5rem 0 4rem;
+	}
+
+	.hero {
+		max-width: 850px;
+		padding: 4rem 0 5rem;
+	}
+
+	.eyebrow {
+		margin: 0 0 1rem;
+		font-size: 0.78rem;
+		font-weight: 700;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		opacity: 0.65;
+	}
+
+	h1 {
+		margin: 0;
+		font-size: clamp(3rem, 8vw, 6.5rem);
+		line-height: 0.96;
+		letter-spacing: -0.055em;
+	}
+
+	.intro {
+		max-width: 720px;
+		margin: 2rem 0 0;
+		font-size: clamp(1.15rem, 2vw, 1.45rem);
+		line-height: 1.6;
+		opacity: 0.78;
+	}
+
+	.actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.9rem;
+		margin-top: 2.25rem;
+	}
+
+	.actions a {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0.9rem 1.2rem;
+		border-radius: 999px;
+		font-weight: 700;
+		text-decoration: none;
+		transition: transform 160ms ease, opacity 160ms ease;
+	}
+
+	.actions a:hover {
+		transform: translateY(-2px);
+	}
+
+	.primary {
+		background: var(--accent);
+		color: white;
+	}
+
+	.secondary {
+		border: 1px solid rgba(100, 100, 100, 0.35);
+	}
+
+	.grid {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 1rem;
+		margin-bottom: 5rem;
+	}
+
+	.grid article {
+		padding: 1.5rem;
+		border: 1px solid rgba(100, 100, 100, 0.22);
+		border-radius: 1rem;
+	}
+
+	.grid span {
+		display: inline-block;
+		margin-bottom: 3rem;
+		font-size: 0.78rem;
+		font-weight: 700;
+		opacity: 0.55;
+	}
+
+	.grid h2,
+	.note h2 {
+		margin: 0 0 0.7rem;
+		font-size: 1.45rem;
+	}
+
+	.grid p,
+	.note > p {
+		margin: 0;
+		line-height: 1.65;
+		opacity: 0.72;
+	}
+
+	.note {
+		display: grid;
+		grid-template-columns: 1fr 1.4fr;
+		gap: 3rem;
+		padding: 2.5rem 0;
+		border-top: 1px solid rgba(100, 100, 100, 0.22);
+		border-bottom: 1px solid rgba(100, 100, 100, 0.22);
+	}
+
+	@media (max-width: 800px) {
+		.home {
+			padding-top: 2rem;
+		}
+
+		.hero {
+			padding: 3rem 0 4rem;
+		}
+
+		.grid,
+		.note {
+			grid-template-columns: 1fr;
+		}
+
+		.grid span {
+			margin-bottom: 1.5rem;
+		}
+
+		.note {
+			gap: 1rem;
+		}
+	}
+</style>
