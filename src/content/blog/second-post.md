@@ -1,16 +1,98 @@
 ---
-title: "Second post"
-description: "Lorem ipsum dolor sit amet"
-pubDate: "Jul 15 2022"
+title: "Practical Azure Integration Architecture: What Matters Most"
+description: "A practical view of designing Azure integrations across APIs, messaging, networking, security and observability."
+pubDate: "Aug 26 2026"
 heroImage: "/blog-placeholder-4.jpg"
 ---
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vitae ultricies leo integer malesuada nunc vel risus commodo viverra. Adipiscing enim eu turpis egestas pretium. Euismod elementum nisi quis eleifend quam adipiscing. In hac habitasse platea dictumst vestibulum. Sagittis purus sit amet volutpat. Netus et malesuada fames ac turpis egestas. Eget magna fermentum iaculis eu non diam phasellus vestibulum lorem. Varius sit amet mattis vulputate enim. Habitasse platea dictumst quisque sagittis. Integer quis auctor elit sed vulputate mi. Dictumst quisque sagittis purus sit amet.
+Azure integration architecture can become complicated very quickly. A solution may involve an application, API Management, Azure Functions, Service Bus, a database, an external SaaS platform, private networking, Key Vault and Application Insights before the first business transaction is even processed.
 
-Morbi tristique senectus et netus. Id semper risus in hendrerit gravida rutrum quisque non tellus. Habitasse platea dictumst quisque sagittis purus sit amet. Tellus molestie nunc non blandit massa. Cursus vitae congue mauris rhoncus. Accumsan tortor posuere ac ut. Fringilla urna porttitor rhoncus dolor. Elit ullamcorper dignissim cras tincidunt lobortis. In cursus turpis massa tincidunt dui ut ornare lectus. Integer feugiat scelerisque varius morbi enim nunc. Bibendum neque egestas congue quisque egestas diam. Cras ornare arcu dui vivamus arcu felis bibendum. Dignissim suspendisse in est ante in nibh mauris. Sed tempus urna et pharetra pharetra massa massa ultricies mi.
+The challenge is not simply choosing Azure services. The real challenge is making the whole path understandable, secure and supportable.
 
-Mollis nunc sed id semper risus in. Convallis a cras semper auctor neque. Diam sit amet nisl suscipit. Lacus viverra vitae congue eu consequat ac felis donec. Egestas integer eget aliquet nibh praesent tristique magna sit amet. Eget magna fermentum iaculis eu non diam. In vitae turpis massa sed elementum. Tristique et egestas quis ipsum suspendisse ultrices. Eget lorem dolor sed viverra ipsum. Vel turpis nunc eget lorem dolor sed viverra. Posuere ac ut consequat semper viverra nam. Laoreet suspendisse interdum consectetur libero id faucibus. Diam phasellus vestibulum lorem sed risus ultricies tristique. Rhoncus dolor purus non enim praesent elementum facilisis. Ultrices tincidunt arcu non sodales neque. Tempus egestas sed sed risus pretium quam vulputate. Viverra suspendisse potenti nullam ac tortor vitae purus faucibus ornare. Fringilla urna porttitor rhoncus dolor purus non. Amet dictum sit amet justo donec enim.
+Here are the areas I consider most important when designing integrations.
 
-Mattis ullamcorper velit sed ullamcorper morbi tincidunt. Tortor posuere ac ut consequat semper viverra. Tellus mauris a diam maecenas sed enim ut sem viverra. Venenatis urna cursus eget nunc scelerisque viverra mauris in. Arcu ac tortor dignissim convallis aenean et tortor at. Curabitur gravida arcu ac tortor dignissim convallis aenean et tortor. Egestas tellus rutrum tellus pellentesque eu. Fusce ut placerat orci nulla pellentesque dignissim enim sit amet. Ut enim blandit volutpat maecenas volutpat blandit aliquam etiam. Id donec ultrices tincidunt arcu. Id cursus metus aliquam eleifend mi.
+## Start with the transaction path
 
-Tempus quam pellentesque nec nam aliquam sem. Risus at ultrices mi tempus imperdiet. Id porta nibh venenatis cras sed felis eget velit. Ipsum a arcu cursus vitae. Facilisis magna etiam tempor orci eu lobortis elementum. Tincidunt dui ut ornare lectus sit. Quisque non tellus orci ac. Blandit libero volutpat sed cras. Nec tincidunt praesent semper feugiat nibh sed pulvinar proin gravida. Egestas integer eget aliquet nibh praesent tristique magna.
+Before selecting services, map the complete flow of a business transaction.
+
+For example:
+
+1. Who sends the request?
+2. Which component authenticates it?
+3. Where is validation performed?
+4. Is the processing synchronous or asynchronous?
+5. Which system owns the final state?
+6. How is failure reported or retried?
+7. How can support teams trace the transaction later?
+
+This simple exercise often exposes architectural gaps earlier than a technology-first discussion.
+
+## Keep API Management focused on the gateway role
+
+Azure API Management is extremely capable, but that does not mean every piece of business logic belongs in an APIM policy.
+
+I prefer using APIM for gateway concerns such as:
+
+- authentication and JWT validation
+- rate limiting and quotas
+- request and response validation
+- routing and backend abstraction
+- header transformation
+- consistent error handling
+- diagnostics and correlation
+
+Complex domain logic is generally easier to test, version and maintain in application code.
+
+## Decide carefully between synchronous and asynchronous processing
+
+Not every integration needs Service Bus, and not every integration should be synchronous.
+
+A synchronous API is usually appropriate when the caller requires an immediate answer and the downstream dependency is reliable enough to participate in that request path.
+
+Messaging becomes valuable when you need decoupling, buffering, fan-out, resilience or independent processing by multiple consumers.
+
+The important design question is not "Can we use Service Bus?" but "What should happen if the receiving system is unavailable for an hour?"
+
+That question usually makes the right architecture much clearer.
+
+## Networking is part of the application architecture
+
+Many cloud designs look correct until networking requirements are added.
+
+Private endpoints, VNet integration, VPN connectivity, NAT gateways, firewall allow-lists and fixed outbound IP addresses can materially change the architecture.
+
+I try to define inbound and outbound connectivity early, including:
+
+- which systems must reach the workload
+- which external systems the workload must reach
+- whether traffic must stay private
+- whether a stable outbound IP is required
+- where DNS resolution occurs
+- which subnet each Azure service integrates with
+
+Treating networking as a late infrastructure task creates avoidable rework.
+
+## Observability should be designed, not added later
+
+An integration that works but cannot be diagnosed is not production ready.
+
+At minimum, I want to be able to answer:
+
+- When did the transaction arrive?
+- Which component processed it?
+- What correlation ID follows it across services?
+- Which external dependency was called?
+- How long did each step take?
+- Where did it fail?
+
+Application Insights, structured logging and consistent correlation identifiers make an enormous difference during support and incident investigation.
+
+## Prefer simple architecture with explicit responsibilities
+
+A good integration architecture does not need to use every Azure service available.
+
+The best designs usually have clear boundaries: APIM handles gateway concerns, application services handle business logic, messaging handles decoupling, Key Vault protects secrets and observability tooling provides traceability.
+
+Complexity should be introduced only when it solves a real requirement.
+
+That principle becomes even more important as AI agents and workflow platforms begin interacting with enterprise APIs. The underlying integration layer still needs the same fundamentals: security, clear contracts, resilience and traceability.
