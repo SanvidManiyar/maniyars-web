@@ -1,16 +1,52 @@
 ---
-title: "First post"
-description: "Lorem ipsum dolor sit amet"
-pubDate: "Jul 08 2022"
+title: "Why I Built Maniyars Web"
+description: "A personal technology lab for documenting cloud architecture, automation, self-hosting and practical AI experiments."
+pubDate: "Aug 27 2026"
 heroImage: "/blog-placeholder-3.jpg"
 ---
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vitae ultricies leo integer malesuada nunc vel risus commodo viverra. Adipiscing enim eu turpis egestas pretium. Euismod elementum nisi quis eleifend quam adipiscing. In hac habitasse platea dictumst vestibulum. Sagittis purus sit amet volutpat. Netus et malesuada fames ac turpis egestas. Eget magna fermentum iaculis eu non diam phasellus vestibulum lorem. Varius sit amet mattis vulputate enim. Habitasse platea dictumst quisque sagittis. Integer quis auctor elit sed vulputate mi. Dictumst quisque sagittis purus sit amet.
+Maniyars Web started as a simple deployment experiment: create an Astro site, connect it to GitHub, deploy it through Cloudflare Workers and see how quickly I could turn a blank starter template into something useful.
 
-Morbi tristique senectus et netus. Id semper risus in hendrerit gravida rutrum quisque non tellus. Habitasse platea dictumst quisque sagittis purus sit amet. Tellus molestie nunc non blandit massa. Cursus vitae congue mauris rhoncus. Accumsan tortor posuere ac ut. Fringilla urna porttitor rhoncus dolor. Elit ullamcorper dignissim cras tincidunt lobortis. In cursus turpis massa tincidunt dui ut ornare lectus. Integer feugiat scelerisque varius morbi enim nunc. Bibendum neque egestas congue quisque egestas diam. Cras ornare arcu dui vivamus arcu felis bibendum. Dignissim suspendisse in est ante in nibh mauris. Sed tempus urna et pharetra pharetra massa massa ultricies mi.
+But the broader idea is more interesting than the deployment itself.
 
-Mollis nunc sed id semper risus in. Convallis a cras semper auctor neque. Diam sit amet nisl suscipit. Lacus viverra vitae congue eu consequat ac felis donec. Egestas integer eget aliquet nibh praesent tristique magna sit amet. Eget magna fermentum iaculis eu non diam. In vitae turpis massa sed elementum. Tristique et egestas quis ipsum suspendisse ultrices. Eget lorem dolor sed viverra ipsum. Vel turpis nunc eget lorem dolor sed viverra. Posuere ac ut consequat semper viverra nam. Laoreet suspendisse interdum consectetur libero id faucibus. Diam phasellus vestibulum lorem sed risus ultricies tristique. Rhoncus dolor purus non enim praesent elementum facilisis. Ultrices tincidunt arcu non sodales neque. Tempus egestas sed sed risus pretium quam vulputate. Viverra suspendisse potenti nullam ac tortor vitae purus faucibus ornare. Fringilla urna porttitor rhoncus dolor purus non. Amet dictum sit amet justo donec enim.
+After many years working across software development, solution architecture and enterprise integration, I have accumulated a lot of small technical lessons that are easy to forget: an Azure networking detail, an API Management policy pattern, a deployment problem, an n8n workflow trick or an integration decision that only becomes obvious after debugging the system in production.
 
-Mattis ullamcorper velit sed ullamcorper morbi tincidunt. Tortor posuere ac ut consequat semper viverra. Tellus mauris a diam maecenas sed enim ut sem viverra. Venenatis urna cursus eget nunc scelerisque viverra mauris in. Arcu ac tortor dignissim convallis aenean et tortor at. Curabitur gravida arcu ac tortor dignissim convallis aenean et tortor. Egestas tellus rutrum tellus pellentesque eu. Fusce ut placerat orci nulla pellentesque dignissim enim sit amet. Ut enim blandit volutpat maecenas volutpat blandit aliquam etiam. Id donec ultrices tincidunt arcu. Id cursus metus aliquam eleifend mi.
+This site is where I want to capture those lessons.
 
-Tempus quam pellentesque nec nam aliquam sem. Risus at ultrices mi tempus imperdiet. Id porta nibh venenatis cras sed felis eget velit. Ipsum a arcu cursus vitae. Facilisis magna etiam tempor orci eu lobortis elementum. Tincidunt dui ut ornare lectus sit. Quisque non tellus orci ac. Blandit libero volutpat sed cras. Nec tincidunt praesent semper feugiat nibh sed pulvinar proin gravida. Egestas integer eget aliquet nibh praesent tristique magna.
+## The areas I care about
+
+Most of my professional background is in the Microsoft and Azure ecosystem. I regularly work with technologies such as .NET, Azure Functions, App Service, API Management, Service Bus, SQL Server, Azure DevOps, Key Vault and Application Insights.
+
+Increasingly, I am also exploring a second layer of technology around that foundation:
+
+- workflow automation with n8n and Power Automate
+- AI agents and model-powered applications
+- self-hosted tools and container platforms
+- Cloudflare Workers and lightweight edge deployments
+- practical ways to connect AI with existing enterprise systems
+
+I am less interested in AI as a standalone chatbot and more interested in what happens when an AI system can safely interact with APIs, workflows, business rules and real data.
+
+## Learning by building
+
+I learn best when I can build something real.
+
+That may be a small home-lab service running in Docker, an API secured behind Azure API Management, a workflow orchestrated by n8n or a simple website deployed globally through Cloudflare.
+
+The project does not need to be large. A small working system often teaches more than hours of passive reading because it forces decisions around security, networking, deployment, monitoring and maintainability.
+
+## What I plan to publish
+
+The goal for this blog is to keep the content practical. Posts may include architecture notes, implementation walkthroughs, troubleshooting write-ups and observations from experiments.
+
+Some topics I expect to cover include Azure integration architecture, API Management policies, private networking, Azure Functions, Service Bus messaging, n8n workflows, Docker and Portainer, Cloudflare deployments and AI agent patterns.
+
+I will also use the site as a record of how my own architecture thinking changes as AI becomes a larger part of software engineering.
+
+## Keeping it useful
+
+There is already more technical content online than anyone can read. I do not want to reproduce documentation that already exists.
+
+Instead, I want to focus on the details that matter when you actually implement something: why a particular approach was chosen, what failed, what trade-offs appeared and what I would do differently next time.
+
+If a post helps me solve the same problem faster six months from now, or helps another engineer avoid an hour of debugging, the site is doing its job.
