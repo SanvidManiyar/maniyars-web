@@ -1,16 +1,82 @@
 ---
-title: "Third post"
-description: "Lorem ipsum dolor sit amet"
-pubDate: "Jul 22 2022"
+title: "Self-Hosting n8n with Docker and Portainer"
+description: "A practical starting architecture for running n8n in a container with Portainer, persistent storage and room to grow."
+pubDate: "Aug 25 2026"
 heroImage: "/blog-placeholder-2.jpg"
 ---
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vitae ultricies leo integer malesuada nunc vel risus commodo viverra. Adipiscing enim eu turpis egestas pretium. Euismod elementum nisi quis eleifend quam adipiscing. In hac habitasse platea dictumst vestibulum. Sagittis purus sit amet volutpat. Netus et malesuada fames ac turpis egestas. Eget magna fermentum iaculis eu non diam phasellus vestibulum lorem. Varius sit amet mattis vulputate enim. Habitasse platea dictumst quisque sagittis. Integer quis auctor elit sed vulputate mi. Dictumst quisque sagittis purus sit amet.
+n8n is one of the tools I am spending more time with because it sits in an interesting space between traditional integration development and AI-powered automation.
 
-Morbi tristique senectus et netus. Id semper risus in hendrerit gravida rutrum quisque non tellus. Habitasse platea dictumst quisque sagittis purus sit amet. Tellus molestie nunc non blandit massa. Cursus vitae congue mauris rhoncus. Accumsan tortor posuere ac ut. Fringilla urna porttitor rhoncus dolor. Elit ullamcorper dignissim cras tincidunt lobortis. In cursus turpis massa tincidunt dui ut ornare lectus. Integer feugiat scelerisque varius morbi enim nunc. Bibendum neque egestas congue quisque egestas diam. Cras ornare arcu dui vivamus arcu felis bibendum. Dignissim suspendisse in est ante in nibh mauris. Sed tempus urna et pharetra pharetra massa massa ultricies mi.
+For learning and experimentation, self-hosting it is attractive. You control the runtime, data location, upgrades and surrounding infrastructure, and you can connect it to services that may not be exposed publicly.
 
-Mollis nunc sed id semper risus in. Convallis a cras semper auctor neque. Diam sit amet nisl suscipit. Lacus viverra vitae congue eu consequat ac felis donec. Egestas integer eget aliquet nibh praesent tristique magna sit amet. Eget magna fermentum iaculis eu non diam. In vitae turpis massa sed elementum. Tristique et egestas quis ipsum suspendisse ultrices. Eget lorem dolor sed viverra ipsum. Vel turpis nunc eget lorem dolor sed viverra. Posuere ac ut consequat semper viverra nam. Laoreet suspendisse interdum consectetur libero id faucibus. Diam phasellus vestibulum lorem sed risus ultricies tristique. Rhoncus dolor purus non enim praesent elementum facilisis. Ultrices tincidunt arcu non sodales neque. Tempus egestas sed sed risus pretium quam vulputate. Viverra suspendisse potenti nullam ac tortor vitae purus faucibus ornare. Fringilla urna porttitor rhoncus dolor purus non. Amet dictum sit amet justo donec enim.
+A simple way to start is to run n8n in Docker and manage the containers through Portainer.
 
-Mattis ullamcorper velit sed ullamcorper morbi tincidunt. Tortor posuere ac ut consequat semper viverra. Tellus mauris a diam maecenas sed enim ut sem viverra. Venenatis urna cursus eget nunc scelerisque viverra mauris in. Arcu ac tortor dignissim convallis aenean et tortor at. Curabitur gravida arcu ac tortor dignissim convallis aenean et tortor. Egestas tellus rutrum tellus pellentesque eu. Fusce ut placerat orci nulla pellentesque dignissim enim sit amet. Ut enim blandit volutpat maecenas volutpat blandit aliquam etiam. Id donec ultrices tincidunt arcu. Id cursus metus aliquam eleifend mi.
+## Why Docker and Portainer
 
-Tempus quam pellentesque nec nam aliquam sem. Risus at ultrices mi tempus imperdiet. Id porta nibh venenatis cras sed felis eget velit. Ipsum a arcu cursus vitae. Facilisis magna etiam tempor orci eu lobortis elementum. Tincidunt dui ut ornare lectus sit. Quisque non tellus orci ac. Blandit libero volutpat sed cras. Nec tincidunt praesent semper feugiat nibh sed pulvinar proin gravida. Egestas integer eget aliquet nibh praesent tristique magna.
+Docker gives n8n an isolated, repeatable runtime. Portainer adds a convenient web interface for managing containers, images, volumes, networks and stacks.
+
+For a small VM or home-lab environment, this combination is easy to understand and flexible enough to expand later.
+
+A basic setup usually includes:
+
+- a Linux VM
+- Docker Engine
+- Portainer
+- an n8n container
+- persistent Docker volumes
+- a reverse proxy or secure tunnel for external access
+- regular backups
+
+## Persistent storage is essential
+
+The n8n container itself should be disposable. Your workflow definitions, credentials and application state should not be.
+
+That means mounting persistent storage for the n8n data directory. If the container is recreated during an upgrade, the data should remain intact.
+
+For a simple test environment, n8n can start with its default database. For a more serious deployment, I would normally prefer PostgreSQL so the application state is separated from the container lifecycle and easier to manage operationally.
+
+## Do not expose the editor carelessly
+
+The n8n editor can contain credentials and powerful integrations, so it should not simply be exposed to the internet on an open port.
+
+A safer pattern is to put a secure access layer in front of it. Depending on the environment, that may be:
+
+- Cloudflare Tunnel with access controls
+- a reverse proxy with TLS
+- VPN access such as Tailscale
+- an identity-aware proxy
+
+The important principle is that administrative access should be deliberate and protected.
+
+## Separate inbound webhooks from administration
+
+One design I like is to think about the n8n editor and public webhook endpoints separately.
+
+The editor is an administrative surface. Webhooks are application endpoints. They have different security requirements.
+
+Even if they initially share the same n8n instance, designing with that distinction in mind makes it easier to add authentication, rate limits, API gateways or dedicated ingress rules later.
+
+## Backups matter more than the container
+
+A container can be recreated quickly. Rebuilding workflows and credentials cannot.
+
+At minimum, I would back up:
+
+- the n8n persistent volume
+- the PostgreSQL database if used
+- Docker Compose or Portainer stack definitions
+- environment configuration stored outside source control
+
+Backups should also be tested. A backup that has never been restored is only an assumption.
+
+## Where this can grow
+
+A small n8n deployment can gradually become part of a much broader automation platform.
+
+For example, workflows can call Azure APIs, trigger serverless functions, interact with databases, process webhooks, invoke AI models or coordinate multi-step business processes.
+
+The architecture can also grow to include PostgreSQL, Redis queue mode, multiple workers, central logging and stronger secret management if workload or reliability requirements increase.
+
+For my own experiments, the goal is to start simple, understand each layer and only add infrastructure when there is a clear reason for it.
+
+That is generally the approach I prefer for automation platforms as well as cloud architecture: simple first, observable always, and scalable when required.
